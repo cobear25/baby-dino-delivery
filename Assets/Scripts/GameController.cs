@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
     int level = 0;
     int totalDinosDelivered = 0;
     int difficulty = 3;
+    bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +110,7 @@ public class GameController : MonoBehaviour
         requirementImage1.sprite = dinoSprites[(int)requirement1.Item1];
         requirementImage2.sprite = dinoSprites[(int)requirement2.Item1];
         requirementImage3.sprite = dinoSprites[(int)requirement3.Item1];
+        canMove = true;
     }
 
     void PopulateBoard()
@@ -190,12 +192,14 @@ public class GameController : MonoBehaviour
     Tile selectedTile;
     public void TileSelected(Tile tile) 
     {
+        if (!canMove) { return; }
         selectedTile = tile;
     }
 
     Tile secondTile;
     public void DraggedOverTile(Tile tile) 
     {
+        if (!canMove) { return; }
         if (selectedTile == null) { return; }
         if (tile == selectedTile) { return; }
         if (secondTile != null) { return; }
@@ -322,6 +326,7 @@ public class GameController : MonoBehaviour
 
     public void RemoveMatches()
     {
+        canMove = false;
         movesRemaining = 3;
         movesText.text = $"Moves: {movesRemaining}";
         List<Tile> tilesToRemove = new List<Tile>();
@@ -506,9 +511,9 @@ public class GameController : MonoBehaviour
         AddNewTiles();
         foreach (var tile in tiles)
         {
-            StartCoroutine(tile.MoveToPos(new Vector2((float)tile.x, (float)tile.y), 10)); 
+            StartCoroutine(tile.MoveToPos(new Vector2((float)tile.x, (float)tile.y), 12.5f)); 
         }
-        Invoke("RemoveMatches", 0.8f);
+        Invoke("RemoveMatches", 0.7f);
     }
 
     void AddNewTiles()
