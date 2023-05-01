@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
     int movesRemaining = 3;
     int level = 0;
     int totalDinosDelivered = 0;
+    int difficulty = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +48,42 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.M)) 
+        {
+            if (audioSource.volume <= 0)
+            {
+                audioSource.volume = 0.75f;
+            }
+            else
+            {
+                audioSource.volume = 0;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SceneManager.LoadScene("HomeScene");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            difficulty = 1;
+            ClearBoard();
+            PopulateBoard();
+            SetRequirements();
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            difficulty = 2;
+            ClearBoard();
+            PopulateBoard();
+            SetRequirements();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            difficulty = 3;
+            ClearBoard();
+            PopulateBoard();
+            SetRequirements();
+        }
     }
 
     void SetRequirements()
@@ -62,9 +98,10 @@ public class GameController : MonoBehaviour
         int req1 = rand3 == 0 ? level : 0;
         int req2 = rand3 == 1 ? level : 0;
         int req3 = rand3 == 2 ? level : 0;
-        requirement1 = ((DinoType)Random.Range(0, 6), 3 + req1);
-        requirement2 = ((DinoType)Random.Range(0, 6), 3 + req2);
-        requirement3 = ((DinoType)Random.Range(0, 6), 3 + req3);
+        int dinoTypeCount = difficulty + 3;
+        requirement1 = ((DinoType)Random.Range(0, dinoTypeCount), 3 + req1);
+        requirement2 = ((DinoType)Random.Range(0, dinoTypeCount), 3 + req2);
+        requirement3 = ((DinoType)Random.Range(0, dinoTypeCount), 3 + req3);
 
         requirement1Text.text = $"{requirement1.Item2}";
         requirement2Text.text = $"{requirement2.Item2}";
@@ -78,17 +115,25 @@ public class GameController : MonoBehaviour
     {
         tiles.Clear();
         int[,] board = new int[7, 11];
+        int dinoTypeCount = difficulty + 3;
         for (int i = 0; i <= 6; i++)
         {
             for (int j = 0; j <= 10; j++)
             {
-                DinoType dinoType = (DinoType)Random.Range(0, 6);
+                DinoType dinoType = (DinoType)Random.Range(0, dinoTypeCount);
                 board[i, j] = (int)dinoType;
             }
         }
         CheckBoardForTrios(board);
     }
 
+    void ClearBoard()
+    {
+        foreach (var tile in tiles)
+        {
+            Destroy(tile.gameObject); 
+        }
+    }
     void CheckBoardForTrios(int[,] board)
     {
         bool shouldRetry = MatchesInBoard(board) > 0;
@@ -468,6 +513,7 @@ public class GameController : MonoBehaviour
 
     void AddNewTiles()
     {
+        int dinoTypeCount = difficulty + 3;
         Dictionary<int, int> newDict = new Dictionary<int, int>();
         for (int i = 0; i < gameBoard.GetLength(0); i++)
         {
@@ -484,7 +530,7 @@ public class GameController : MonoBehaviour
                     {
                         newDict[i] = 1;
                     }
-                    DinoType dinoType = (DinoType)Random.Range(0, 6);
+                    DinoType dinoType = (DinoType)Random.Range(0, dinoTypeCount);
                     gameBoard[i, j] = (int)dinoType;
                     Tile tile = Instantiate(tilePrefab).GetComponent<Tile>();
                     tile.transform.position = new Vector2(i, 10 + newDict[i]);

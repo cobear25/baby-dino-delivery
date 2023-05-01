@@ -14,7 +14,18 @@ public class HomeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.M)) 
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            if (audioSource.volume <= 0)
+            {
+                audioSource.volume = 0.75f;
+            }
+            else
+            {
+                audioSource.volume = 0;
+            }
+        }
     }
 
     public void PlayGame()
