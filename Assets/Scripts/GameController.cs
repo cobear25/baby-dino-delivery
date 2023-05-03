@@ -42,6 +42,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.GetInt("muted") == 1)
+        {
+            audioSource.volume = 0.0f;
+        }
         PopulateBoard();
         SetRequirements();
     }
@@ -54,10 +58,12 @@ public class GameController : MonoBehaviour
             if (audioSource.volume <= 0)
             {
                 audioSource.volume = 0.75f;
+                PlayerPrefs.SetInt("muted", 0);
             }
             else
             {
                 audioSource.volume = 0;
+                PlayerPrefs.SetInt("muted", 1);
             }
         }
         if (Input.GetKeyDown(KeyCode.Q))
@@ -66,6 +72,9 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
+            totalDinosDelivered = 0;
+            totalDinosText.text = $"Total \nDelivered: 0";
+            level = 0;
             difficulty = 1;
             ClearBoard();
             PopulateBoard();
@@ -73,6 +82,9 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
+            totalDinosDelivered = 0;
+            totalDinosText.text = $"Total \nDelivered: 0";
+            level = 0;
             difficulty = 2;
             ClearBoard();
             PopulateBoard();
@@ -80,6 +92,9 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
+            totalDinosDelivered = 0;
+            totalDinosText.text = $"Total \nDelivered: 0";
+            level = 0;
             difficulty = 3;
             ClearBoard();
             PopulateBoard();
@@ -422,17 +437,17 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
-        strike1.SetActive(false);
-        strike2.SetActive(false);
-        strike3.SetActive(false);
+        // strike1.SetActive(false);
+        // strike2.SetActive(false);
+        // strike3.SetActive(false);
         movesText.gameObject.SetActive(false);
         deliverButton.SetActive(false);
-        requirement1Text.gameObject.SetActive(false);
-        requirement2Text.gameObject.SetActive(false);
-        requirement3Text.gameObject.SetActive(false);
-        requirementImage1.gameObject.SetActive(false);
-        requirementImage2.gameObject.SetActive(false);
-        requirementImage3.gameObject.SetActive(false);
+        // requirement1Text.gameObject.SetActive(false);
+        // requirement2Text.gameObject.SetActive(false);
+        // requirement3Text.gameObject.SetActive(false);
+        // requirementImage1.gameObject.SetActive(false);
+        // requirementImage2.gameObject.SetActive(false);
+        // requirementImage3.gameObject.SetActive(false);
         gameOverPanel.SetActive(true);
     }
 
