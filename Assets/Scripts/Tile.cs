@@ -90,17 +90,17 @@ public class Tile : MonoBehaviour
         switch (dinoType)
         {
             case DinoType.tRex:
-                return new Color(0, 150f/255f, 0);
+                return new Color(105f/255f, 195f/255f, 105f/255f);
             case DinoType.triceratops:
-                return new Color(221f/255f, 9f/255f, 9f/255f);
+                return new Color(206f/255f, 82f/255f, 82f/255f);
             case DinoType.stegosaurus:
-                return Color.yellow;
+                return new Color(251f/255f, 200f/255f, 72f/255f);
             case DinoType.brachiosaurus:
-                return Color.blue;
+                return new Color(28f/255f, 155f/255f, 174f/255f);
             case DinoType.paralophosaurus:
-                return new Color(153f/255f, 0, 1);
+                return new Color(169f/255f, 94f/255f, 219f/255f);
             case DinoType.ankylosaurus:
-                return new Color(1.0f, 0.65f, 0.0f);
+                return new Color(242f/255f, 124f/255f, 34f/255f);
             default:
                 return Color.blue;
         }
